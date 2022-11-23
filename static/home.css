@@ -1,0 +1,38 @@
+h1 {
+    color:  red;
+    text-align: center;
+    font-size: 3cm;
+    font-family: fantasy;
+}
+
+.buttons{
+    text-align: center;
+}
+
+a{
+    background-color: darkred;
+    border: 2px solid black;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+}
+
+a:hover{
+    background-color: chocolate;
+    border: 2px solid black;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    color: black;
+}
+body{
+    background-color: blanchedalmond;
+}
+p{
+    text-align: center;
+    font-size: 40px;
+    font-family: cursive;
+}

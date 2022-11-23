@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Thank you!</title>
+    <link rel="stylesheet" href = "../static/order_250.css">
+    
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('account_home') }}" class="click">Back</a> |
+    </nav>
+    <form action="{{ url_for('order250') }}" method="POST">
+        <h1> $2.50 set meal </h1>
+        <p> Choose 2 Cai and 1 Rou. No additional changes are allowed. </p>
+        
+        
+        <!--  cai table 1  -->
+        <table border="2px">
+            <caption class="cap">Choose 1st Cai From the list below :</caption>
+            <tr class="head">
+                <td>CaiID</td>
+                <td>Name</td>
+                <td>Spicy</td>
+                <td>Description</td>
+            </tr>
+
+            {% for row in range( cai.__len__() ) %}
+
+            {% if cai[row][3] == 1 %}
+
+            <tr id={{'c' + row|string }} class="content">
+                <td>{{ cai[row][0] }}</td>
+                <td>{{ cai[row][1] }}</td>
+                <td class="spicy">&#10003;</td>
+                <td>{{ cai[row][4] }}</td>
+            </tr>
+
+            {% else %}
+            <tr id={{'c' + row|string }} class="content">
+                <td>{{ cai[row][0] }}</td>
+                <td>{{ cai[row][1] }}</td>
+                <td class="nspicy">&#10005;</td>
+                <td>{{ cai[row][4] }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+        </table>
+        <p></p>
+        
+        <p>Insert Cai ID below :</p>
+        <input type="text" placeholder="" name="cai1" id="cai1" maxlength="1">
+            
+        
+
+        <!-- cai table 2 -->
+        
+        <div id="cai_table2">
+            <table border="2px">
+                <caption class="cap">Choose 2nd Cai From the list below :</caption>
+                <tr class="head">
+                    <td>CaiID</td>
+                    <td>Name</td>
+                    <td>Spicy</td>
+                    <td>Description</td>
+                </tr>
+    
+                {% for row in range( cai.__len__() ) %}
+    
+                {% if cai[row][3] == 1 %}
+    
+                <tr id={{'C' + row|string }} class="content">
+                    <td>{{ cai[row][0] }}</td>
+                    <td>{{ cai[row][1] }}</td>
+                    <td class="spicy">&#10003;</td>
+                    <td>{{ cai[row][4] }}</td>
+                </tr>
+    
+                {% else %}
+                <tr id={{'C' + row|string }} class="content">
+                    <td>{{ cai[row][0] }}</td>
+                    <td>{{ cai[row][1] }}</td>
+                    <td class="nspicy">&#10005;</td>
+                    <td>{{ cai[row][4] }}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+    
+            </table>
+            <p>
+                 
+            </p>
+            <p>Insert Cai ID below :</p>
+            <input type="text" placeholder="" name="cai2" id="cai2" maxlength="1">
+        </div>
+        
+            
+        
+        <!-- rou table 1 -->
+        <table border="2px">
+            <caption class="cap">Select 1 Rou from the list below :</caption>
+            <tr class="head">
+                <td>RouID</td>
+                <td>Name</td>
+                <td>Spicy</td>
+                <td>Description</td>
+            </tr>
+
+            {% for row in range(not_cai.__len__()) %}
+
+            {% if not_cai[row][3] == 1 %}
+
+            <tr id={{ 'r' + row|string }}>
+                <td>{{ not_cai[row][0] }}</td>
+                <td>{{ not_cai[row][1] }}</td>
+                <td class="spicy">&#10003;</td>
+                <td>{{ not_cai[row][4] }}</td>
+            </tr>
+
+            {% else %}
+            <tr id={{ 'r' + row|string }}>
+                <td>{{ not_cai[row][0] }}</td>
+                <td>{{ not_cai[row][1] }}</td>
+                <td class="nspicy">&#10005;</td>
+                <td>{{ not_cai[row][4] }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+
+            
+        </table>
+        
+        <p>Insert Rou ID below :</p>
+        <input type="text" placeholder="" name="rou1" id="rou1" maxlength="1">
+        <p>
+            <input type="submit" value="Order!" id="order" disabled="disabled">
+        </p>
+        <p id="alert">*certain inputs are invalid*</p>
+        
+        
+    </form>
+    <nav>
+        <a href="{{ url_for('account_home') }}" class="click">Back</a> |
+    </nav>
+    <script>
+        // --------------------------------------------------------------------------------------------
+        var CAI1 = false
+        var CAI2 = false
+        var ROU = false
+        
+        function gray_out(c1, c2, r1){
+            const button_ = document.getElementById('order');
+            console.log(c1, c2, r1)
+            if ((c1 == true) && (c2 == true) && (r1 == true)) {
+                button_.removeAttribute('disabled')
+                var alert = document.getElementById('alert')
+                console.log(alert)
+                alert.innerHTML = ''
+
+            } else{
+                
+                button_.disabled = true;
+                var alert = document.getElementById('alert')
+                console.log(alert)
+                alert.innerHTML = '*certain inputs are invalid*'
+            }
+        }
+
+        cai1.addEventListener('input', (e) =>{
+            
+            console.log(e)
+            try{
+                const row = document.getElementById('c' + e.data.toString());
+                row.style.color = "white"
+                row.style.backgroundColor = "black"
+                row.style.fontWeight = "bold"
+                CAI1 = true
+                gray_out(CAI1, CAI2, ROU)
+            }
+            catch{
+                console.log('field is empty')
+                CAI1 = false
+                gray_out(CAI1, CAI2, ROU)
+                try{
+                    for (let i = 0; ; i++){
+                        const id_ = 'c' + i.toString()
+                        const row_ = document.getElementById(id_)
+                        row_.style.color = "black"
+                        row_.style.backgroundColor = "lightgoldenrodyellow"
+                        row_.style.fontWeight = "normal"
+                        
+                    }
+                }
+                catch{
+                }
+                
+
+            }
+            
+        })
+        cai2.addEventListener('input', (e) =>{
+            
+            console.log(e)
+            try{
+                const row = document.getElementById('C' + e.data.toString());
+                row.style.color = "white"
+                row.style.backgroundColor = "black"
+                row.style.fontWeight = "bold"
+                CAI2 = true
+                gray_out(CAI1, CAI2, ROU)
+            
+            }
+            catch{
+                console.log('field is empty')
+                CAI2 = false
+                gray_out(CAI1, CAI2, ROU)
+                try{
+                    for (let i = 0; ; i++){
+                        const id_ = 'C' + i.toString()
+                        const row_ = document.getElementById(id_)
+                        row_.style.color = "black"
+                        row_.style.backgroundColor = "blanchedalmond"
+                        row_.style.fontWeight = "normal"
+                        
+                    }
+                }
+                catch{
+                }
+                
+
+            }
+            
+        })
+
+
+        rou1.addEventListener('input', (e) =>{
+            
+            console.log(e)
+            try{
+                const row = document.getElementById('r' + e.data.toString());
+                row.style.color = "white"
+                row.style.backgroundColor = "black"
+                row.style.fontWeight = "bold"
+                ROU = true
+                gray_out(CAI1, CAI2, ROU)
+            
+            }
+            catch{
+                console.log('field is empty')
+                ROU = false
+                gray_out(CAI1, CAI2, ROU)
+                try{
+                    for (let i = 0; ; i++){
+                        const id_ = 'r' + i.toString()
+                        const row_ = document.getElementById(id_)
+                        row_.style.color = "black"
+                        row_.style.backgroundColor = "lightgoldenrodyellow"
+                        row_.style.fontWeight = "normal"
+                        
+                        
+                        
+                    }
+                }
+                catch{
+                }
+                
+
+            }
+            
+        })
+        
+        
+    </script>
+</body>
+</html>
