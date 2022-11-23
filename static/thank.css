@@ -1,0 +1,36 @@
+html{
+    background-color: pink;
+}
+h1{
+    font-size: 60px;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+p{
+    text-align: center;
+    font-size: 20px;
+}
+#home{
+    background-color: white;
+    color: darkblue;
+    border: 2px solid black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}
+#home:hover{
+    background-color: deeppink;
+    color: whitesmoke;
+    border: 2px solid black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-weight: bold;
+}

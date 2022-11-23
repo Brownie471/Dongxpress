@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm</title>
+    <link rel="stylesheet" href = "../static/order_cust_shoppingcart.css">
+</head>
+<body>
+    <h1 class="most_c">Please confirm your order :</h1>
+    
+    <table border="1px" class="most_c">
+        <tr>
+            <td class="title">Cai Name</td>
+            <td class="title">Cai Price</td>
+            <td class="title">Quantity</td>
+        </tr>
+        {% for row in result %}
+
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ '$' + row[1]|string + '0' }}</td>
+            <td>{{ row[2] }}</td>
+        </tr>
+
+        {% endfor %}
+        <tr>
+            <td class="title"></td>
+            <td class="title"></td>
+            <td class="title"></td>
+        </tr>
+        <tr>
+            <td>Cai Cost : </td>
+            <td>{{ '$' + total|string + '0'}}</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td>Fan Cost : </td>
+            <td>$1.00</td>
+            <td>-</td>
+        </tr>
+        <tr>
+            <td class="title"></td>
+            <td class="title"></td>
+            <td class="title"></td>
+        </tr>
+        <tr>
+            <td>Amount Payable : </td>
+            <td>{{ '$' + (total + 1)|string + '0'}}</td>
+            <td>-</td>
+        </tr>
+    </table>
+    <form action="{{ url_for('undo_shopping_cart') }}" class="undo_class">
+        <input type="submit" value=  "&#9100; Undo" class="undo">
+    </form>
+    <p class="most_c">
+        --------------------------------------------------------------------------------------------
+    </p>
+    
+    <a href="{{ url_for('order_cust') }}" class="button">Back</a>
+
+    <form action="{{ url_for('order_cust') }}" method="POST">
+        <p class="most_c" id="info">
+            Select a date of delivery:
+        </p>
+        <p class="most_c" id="bracket">
+            (please give me 2 days to prepare)
+        </p>
+        <p id="note">*Note: Once an order is finalized, no changes can be made(plz dun make life hard for me)*</p>
+        <p class="most_c">
+            <input type="date" min={{ date_ }} name="ddate" id="d8" class="most_c">
+        </p>
+        <p class="most_c">
+            <input type="submit" value="Finalize" id="final" disabled="true" class="most_c">
+        </p>
+        
+
+
+
+    </form>
+    <script>
+        const date_input = document.getElementById('d8')
+        const finalize = document.getElementById('final')
+        date_input.addEventListener('input', function(e){
+            var day = new Date(this.value).getUTCDay()
+            console.log(date_input.value)
+            if ([6,0].includes(day)){
+                e.preventDefault()
+                this.value = ""
+                alert('I do not cater on weekends, screw u')
+                finalize.disabled = true
+            }
+            else{
+                finalize.removeAttribute('disabled')
+            }
+            
+            
+            
+
+
+        })
+        
+
+    </script>
+</body>
+</html>

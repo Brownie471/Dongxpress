@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Login!</title>
+    <link rel="stylesheet" href = "../static/login.css">
+</head>
+<body>
+    <h1>Login Page</h1>
+    <p>Please enter your username and password here :</p>
+    <form action="{{ url_for('login') }}" method="POST" class="form">
+        <h2>
+            Username:
+        </h2>
+        <p>
+            <input type="text" placeholder="Username" name="uname" value={{ name }}>
+        </p>
+        <h2>
+            Password:
+        </h2>
+        <p>
+            <input type="password" placeholder="password" name="pw">
+        </p>
+        
+        <p>
+            <input type="submit" value="Login">
+        </p>
+        <p class="fail_reason">
+            *Your Password/Name is incorrect*
+        </p>
+    </form>
+    <p>
+        <a href="{{ url_for('register') }}" class="reg">New Here? Register Now!</a>
+    </p>
+    
+    
+    <a class="button" href="{{ url_for('home') }}">Home</a>
+    
+    
+</body>
+</html>

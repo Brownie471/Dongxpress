@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Thank you!</title>
+    <link rel="stylesheet" href = "../static/order_cust.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('account_home') }}" class="click">Back</a> |
+    </nav>
+    <div id="p_with_shoppin">
+        <a href="{{ url_for('shopping_cart') }}" id="shopping"> <i class="fa fa-shopping-cart" id="logo_sc"></i></a>
+    </div>
+    <p id="deco">
+        ----------------------------------------------------------------------------------------------------------------------------------------------------
+    </p>
+    <form action="{{ url_for('add_shopping_cart_c') }}">
+        <h1> Custom meal </h1>
+        <p> Choose whatever you want. I am not paying anyways. </p>
+        
+        
+        <!--  cai table 1  -->
+        <table border="2px">
+            <caption class="cap">This is all the Cai available :</caption>
+            <tr class="head">
+                <td>CaiID</td>
+                <td>Name</td>
+                <td>CaiPrice</td>
+                <td>Spicy</td>
+                <td>Description</td>
+            </tr>
+
+            {% for row in range( cai.__len__() ) %}
+
+            {% if cai[row][4] == 1 %}
+
+            <tr id={{'c' + row|string }} class="content">
+                <td>{{ cai[row][0] }}</td>
+                <td>{{ cai[row][1] }}</td>
+                <td>{{'$' + cai[row][2]|string + '0'}}</td>
+                <td class="spicy">&#10003;</td>
+                
+                <td>{{ cai[row][6] }}</td>
+            </tr>
+
+            {% else %}
+            <tr id={{'c' + row|string }} class="content">
+                <td>{{ cai[row][0] }}</td>
+                <td>{{ cai[row][1] }}</td>
+                <td>{{'$' + cai[row][2]|string + '0'}}</td>
+                <td class="nspicy">&#10005;</td>
+                
+                <td>{{ cai[row][6] }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+        </table>
+        <p>Insert Cai ID below :</p>
+            <input type="text" placeholder="" name="cai" id="cai" maxlength="1">
+        <p>
+            <input type="submit" value="Add To Cart" id="order_c" disabled="disabled">
+        </p>
+        <p id="alert_c">*certain inputs are invalid*</p>
+        </form>
+
+        <form action="{{ url_for('add_shopping_cart_r') }}">
+        <table border="2px">
+            <caption class="cap">This is all the Rou available :</caption>
+            <tr class="head">
+                <td>RouID</td>
+                <td>Name</td>
+                <td>RouPrice</td>
+                <td>Spicy</td>
+                <td>Description</td>
+            </tr>
+
+            {% for row in range( rou.__len__() ) %}
+
+            {% if rou[row][4] == 1 %}
+
+            <tr id={{'r' + row|string }} class="content">
+                <td>{{ rou[row][0] }}</td>
+                <td>{{ rou[row][1] }}</td>
+                <td>{{'$' + rou[row][2]|string + '0'}}</td>
+                <td class="spicy">&#10003;</td>
+                
+                <td>{{ rou[row][6] }}</td>
+            </tr>
+
+            {% else %}
+            <tr id={{'r' + row|string }} class="content">
+                <td>{{ rou[row][0] }}</td>
+                <td>{{ rou[row][1] }}</td>
+                <td>{{'$' + rou[row][2]|string + '0'}}</td>
+                <td class="nspicy">&#10005;</td>
+                
+                <td>{{ rou[row][6] }}</td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+
+        </table>
+            
+        <p>Insert Rou ID below :</p>
+        <input type="text" placeholder="" name="rou" id="rou" maxlength="1">
+        <p>
+            <input type="submit" value="Add To Cart" id="order_r" disabled="disabled" name="rou">
+        </p>
+        <p id="alert_r">*certain inputs are invalid*</p>
+
+        
+    </form>
+    <nav>
+        <a href="{{ url_for('account_home') }}" class="click">Back</a> |
+    </nav>
+    <script>
+        // --------------------------------------------------------------------------------------------
+        var CAI = false
+        
+        var ROU = false
+        
+        function gray_out_C(c1){
+            const button_ = document.getElementById('order_c');
+            console.log(c1)
+            if (c1 == true) {
+                button_.removeAttribute('disabled')
+                var alert_ = document.getElementById('alert_c')
+                
+                alert_.innerHTML = ''
+
+            } else{
+                
+                button_.disabled = true;
+                var alert_ = document.getElementById('alert_c')
+                console.log(alert)
+                alert_.innerHTML = '*certain inputs are invalid*'
+            }
+        }
+        function gray_out_R(r1){
+            const button_ = document.getElementById('order_r');
+            console.log(r1)
+            if (r1 == true) {
+                button_.removeAttribute('disabled')
+                var alert_ = document.getElementById('alert_r')
+                
+                alert_.innerHTML = ''
+
+            } else{
+                
+                button_.disabled = true;
+                var alert_ = document.getElementById('alert_r')
+                
+                alert_.innerHTML = '*certain inputs are invalid*'
+            }
+        }
+
+        cai.addEventListener('input', (e) =>{
+            
+            console.log(e)
+            try{
+                const row = document.getElementById('c' + e.data.toString());
+                row.style.color = "white"
+                row.style.backgroundColor = "black"
+                row.style.fontWeight = "bold"
+                CAI1 = true
+                gray_out_C(CAI1)
+            }
+            catch{
+                console.log('field is empty')
+                CAI1 = false
+                gray_out_C(CAI1)
+                try{
+                    for (let i = 0; ; i++){
+                        const id_ = 'c' + i.toString()
+                        const row_ = document.getElementById(id_)
+                        row_.style.color = "black"
+                        row_.style.backgroundColor = "lightgoldenrodyellow"
+                        row_.style.fontWeight = "normal"
+                        
+                    }
+                }
+                catch{
+                }
+                
+
+            }
+            
+        })
+        
+        rou.addEventListener('input', (e) =>{
+            
+            console.log(e)
+            try{
+                const row = document.getElementById('r' + e.data.toString());
+                row.style.color = "white"
+                row.style.backgroundColor = "black"
+                row.style.fontWeight = "bold"
+                ROU = true
+                gray_out_R(ROU)
+            
+            }
+            catch{
+                console.log('field is empty')
+                ROU = false
+                gray_out_R(ROU)
+                try{
+                    for (let i = 0; ; i++){
+                        const id_ = 'r' + i.toString()
+                        const row_ = document.getElementById(id_)
+                        row_.style.color = "black"
+                        row_.style.backgroundColor = "lightgoldenrodyellow"
+                        row_.style.fontWeight = "normal"
+                        
+                        
+                        
+                    }
+                }
+                catch{
+                }
+                
+
+            }
+            
+        })
+        
+        
+        
+    </script>
+</body>
+</html>
